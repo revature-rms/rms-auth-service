@@ -1,6 +1,6 @@
 package com.revature.rms.auth.exceptions;
 
-public class ResourcePersistenceException extends RuntimeException {
+public class ResourcePersistenceException extends AppUserException {
 
     private int status;
 

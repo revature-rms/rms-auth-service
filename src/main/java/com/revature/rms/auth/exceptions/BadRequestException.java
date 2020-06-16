@@ -1,6 +1,6 @@
 package com.revature.rms.auth.exceptions;
 
-public class BadRequestException extends RuntimeException {
+public class BadRequestException extends AppUserException {
 
     private int status;
 

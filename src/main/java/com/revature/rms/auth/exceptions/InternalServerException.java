@@ -1,6 +1,6 @@
 package com.revature.rms.auth.exceptions;
 
-public class InternalServerException extends RuntimeException{
+public class InternalServerException extends AppUserException{
 
     private int status;
 

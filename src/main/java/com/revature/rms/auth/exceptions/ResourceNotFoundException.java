@@ -1,6 +1,6 @@
 package com.revature.rms.auth.exceptions;
 
-public class ResourceNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends AppUserException {
 
     private int status;
 

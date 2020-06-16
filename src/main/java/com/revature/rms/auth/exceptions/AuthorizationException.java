@@ -1,6 +1,6 @@
 package com.revature.rms.auth.exceptions;
 
-public class AuthorizationException extends RuntimeException {
+public class AuthorizationException extends AppUserException {
 
     private int status;
 
