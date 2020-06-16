@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ControllerAdvisor {
 
     @ExceptionHandler
-    public ErrorResponse handleException(RuntimeException e, HttpServletResponse resp){
+    public ErrorResponse handleException(AppUserException e, HttpServletResponse resp){
         ErrorResponse err = new ErrorResponse(e);
 
         if(e instanceof AuthenticationException){
