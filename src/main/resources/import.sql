@@ -1,0 +1,2 @@
+INSERT INTO APP_USER (EMAIL, PASSWORD, ROLE, USERNAME) VALUES ('wezley@revature.com', 'password', 'ADMIN', 'wsingleton')
+INSERT INTO APP_USER (EMAIL, PASSWORD, ROLE, USERNAME) VALUES ('kevin@revature.com', 'password', 'BASIC_USER', 'kwagenheim')
