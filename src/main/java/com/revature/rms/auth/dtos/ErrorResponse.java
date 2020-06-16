@@ -1,5 +1,7 @@
 package com.revature.rms.auth.dtos;
 
+import com.revature.rms.auth.exceptions.AppUserException;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -18,8 +20,8 @@ public class ErrorResponse {
         this.timestamp = timestamp;
     }
 
-    public ErrorResponse(RuntimeException e){
-        this.status = 520;
+    public ErrorResponse(AppUserException e){
+        this.status = e.getStatus();
         this.message = e.getMessage();
         this.timestamp = LocalDateTime.now().toString();
     }
