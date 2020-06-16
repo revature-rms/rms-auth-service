@@ -4,19 +4,19 @@ public class AppUserException extends RuntimeException{
 
     private int status;
 
-    public AppUserException() {
+    public AppUserException(int status) {
         super("Authentication failed!");
-        this.status = 520;
+        this.status = status;
     }
-    public AppUserException(String message) {
+    public AppUserException(String message, int status) {
         super(message);
-        this.status = 520;
+        this.status = status;
     }
 
-    public AppUserException(String message, Throwable cause){
+    public AppUserException(String message, Throwable cause, int status){
 
         super(message, cause);
-        this.status = 520;
+        this.status = status;
 
     }
 

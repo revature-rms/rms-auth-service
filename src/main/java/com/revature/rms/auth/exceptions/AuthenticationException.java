@@ -5,12 +5,10 @@ public class AuthenticationException extends AppUserException {
     private int status;
 
     public AuthenticationException() {
-        super("Authentication failed!");
-        this.status = 401;
+        super("Authentication failed!", 401);
     }
     public AuthenticationException(String message) {
-        super(message);
-        this.status = 401;
+        super(message, 401);
     }
 
 }

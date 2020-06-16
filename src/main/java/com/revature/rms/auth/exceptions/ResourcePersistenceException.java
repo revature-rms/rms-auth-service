@@ -5,18 +5,15 @@ public class ResourcePersistenceException extends AppUserException {
     private int status;
 
     public ResourcePersistenceException() {
-        super("Resource could not be persisted!");
-        this.status = 409;
+        super("Resource could not be persisted!", 409);
     }
 
     public ResourcePersistenceException(String message) {
-        super(message);
-        this.status = 409;
+        super(message, 409);
     }
 
     public ResourcePersistenceException(String message, Throwable cause) {
-        super(message, cause);
-        this.status = 409;
+        super(message, cause, 409);
     }
 
 }

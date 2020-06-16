@@ -5,13 +5,11 @@ public class InternalServerException extends AppUserException{
     private int status;
 
     public InternalServerException() {
-        super("An invalid request was made!");
-        this.status = 500;
+        super("An invalid request was made!", 500);
     }
 
     public InternalServerException(String message) {
-        super(message);
-        this.status = 500;
+        super(message, 500);
     }
 
 }

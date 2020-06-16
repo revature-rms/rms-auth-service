@@ -5,13 +5,11 @@ public class InvalidRequestException extends AppUserException {
     private int status;
 
     public InvalidRequestException() {
-        super("Invalid request made!");
-        this.status = 400;
+        super("Invalid request made!", 400);
     }
 
     public InvalidRequestException(String message) {
-        super(message);
-        this.status = 400;
+        super(message, 400);
     }
 
 }
