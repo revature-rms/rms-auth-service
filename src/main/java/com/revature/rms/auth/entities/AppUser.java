@@ -1,5 +1,7 @@
 package com.revature.rms.auth.entities;
 
+import com.revature.rms.auth.dtos.RegisterDto;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -41,6 +43,14 @@ public class AppUser implements Serializable {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public AppUser(RegisterDto newUser){
+        this.id = newUser.getId();
+        this.email = newUser.getEmail();
+        this.username = newUser.getUsername();
+        this.password = newUser.getPassword();
+        this.role = UserRole.getByName(newUser.getRole());
     }
 
     public int getId() {
