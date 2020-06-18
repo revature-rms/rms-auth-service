@@ -1,43 +1,23 @@
-package com.revature.rms.auth.entities;
+package com.revature.rms.auth.dtos;
 
-import com.revature.rms.auth.dtos.RegisterDto;
-
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-public class AppUser implements Serializable {
+public class RegisterDto {
 
-    @Id
-    @Column
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable=false,unique=true)
     private String email;
 
-    @Column(nullable=false,unique=true)
     private String username;
 
-    @Column(nullable=false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private String role;
 
-    public AppUser() {
-        super();
+    public RegisterDto() {
     }
 
-    public AppUser(String email, String username, String password, UserRole role) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
-
-    public AppUser(int id, String email, String username, String password, UserRole role) {
+    public RegisterDto(int id, String email, String username, String password, String role) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -45,12 +25,11 @@ public class AppUser implements Serializable {
         this.role = role;
     }
 
-    public AppUser(RegisterDto newUser){
-        this.id = newUser.getId();
-        this.email = newUser.getEmail();
-        this.username = newUser.getUsername();
-        this.password = newUser.getPassword();
-        this.role = UserRole.getByName(newUser.getRole());
+    public RegisterDto(String email, String username, String password, String role) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public int getId() {
@@ -85,11 +64,11 @@ public class AppUser implements Serializable {
         this.password = password;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -97,12 +76,12 @@ public class AppUser implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AppUser appUser = (AppUser) o;
-        return id == appUser.id &&
-                Objects.equals(email, appUser.email) &&
-                Objects.equals(username, appUser.username) &&
-                Objects.equals(password, appUser.password) &&
-                role == appUser.role;
+        RegisterDto that = (RegisterDto) o;
+        return id == that.id &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(username, that.username) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(role, that.role);
     }
 
     @Override
@@ -112,13 +91,12 @@ public class AppUser implements Serializable {
 
     @Override
     public String toString() {
-        return "AppUser{" +
+        return "RegisterDto{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
+                ", role='" + role + '\'' +
                 '}';
     }
-
 }
