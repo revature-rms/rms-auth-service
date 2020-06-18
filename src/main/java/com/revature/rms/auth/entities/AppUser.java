@@ -1,9 +1,12 @@
 package com.revature.rms.auth.entities;
 
 import com.revature.rms.auth.dtos.RegisterDto;
+import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,20 +27,21 @@ public class AppUser implements Serializable {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    @ElementCollection
+    private List<UserRole> role;
 
     public AppUser() {
         super();
     }
 
-    public AppUser(String email, String username, String password, UserRole role) {
+    public AppUser(String email, String username, String password, List<UserRole> role) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public AppUser(int id, String email, String username, String password, UserRole role) {
+    public AppUser(int id, String email, String username, String password, List<UserRole> role) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -50,7 +54,14 @@ public class AppUser implements Serializable {
         this.email = newUser.getEmail();
         this.username = newUser.getUsername();
         this.password = newUser.getPassword();
-        this.role = UserRole.getByName(newUser.getRole());
+
+        List<UserRole> roles = new ArrayList<UserRole>();
+
+        for(String role:newUser.getRole()){
+            roles.add(UserRole.getByName(role));
+        }
+
+        this.role = roles;
     }
 
     public int getId() {
@@ -85,11 +96,11 @@ public class AppUser implements Serializable {
         this.password = password;
     }
 
-    public UserRole getRole() {
+    public List<UserRole> getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(List<UserRole> role) {
         this.role = role;
     }
 

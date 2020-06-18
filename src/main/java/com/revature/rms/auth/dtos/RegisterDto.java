@@ -1,5 +1,6 @@
 package com.revature.rms.auth.dtos;
 
+import java.util.List;
 import java.util.Objects;
 
 public class RegisterDto {
@@ -12,12 +13,12 @@ public class RegisterDto {
 
     private String password;
 
-    private String role;
+    private List<String> role;
 
     public RegisterDto() {
     }
 
-    public RegisterDto(int id, String email, String username, String password, String role) {
+    public RegisterDto(int id, String email, String username, String password, List<String> role) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -25,7 +26,7 @@ public class RegisterDto {
         this.role = role;
     }
 
-    public RegisterDto(String email, String username, String password, String role) {
+    public RegisterDto(String email, String username, String password, List<String> role) {
         this.email = email;
         this.username = username;
         this.password = password;
@@ -64,11 +65,11 @@ public class RegisterDto {
         this.password = password;
     }
 
-    public String getRole() {
+    public List<String> getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(List<String> role) {
         this.role = role;
     }
 

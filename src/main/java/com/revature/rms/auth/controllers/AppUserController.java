@@ -1,10 +1,7 @@
 package com.revature.rms.auth.controllers;
 
 import com.revature.rms.auth.dtos.AppUserDto;
-import com.revature.rms.auth.dtos.Credentials;
-import com.revature.rms.auth.dtos.Principal;
 import com.revature.rms.auth.dtos.RegisterDto;
-import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.auth.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

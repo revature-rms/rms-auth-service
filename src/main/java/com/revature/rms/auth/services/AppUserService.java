@@ -4,7 +4,6 @@ import com.revature.rms.auth.dtos.AppUserDto;
 import com.revature.rms.auth.dtos.Credentials;
 import com.revature.rms.auth.dtos.RegisterDto;
 import com.revature.rms.auth.entities.AppUser;
-import com.revature.rms.auth.entities.UserRole;
 import com.revature.rms.auth.exceptions.AuthenticationException;
 import com.revature.rms.auth.exceptions.BadRequestException;
 import com.revature.rms.auth.exceptions.ResourceNotFoundException;
