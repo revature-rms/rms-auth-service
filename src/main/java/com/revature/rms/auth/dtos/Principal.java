@@ -20,13 +20,7 @@ public class Principal {
         this.role = role;
     }
 
-    public Principal(AppUser user){
 
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.role = user.getRole();
-
-    }
 
     public int getId() {
         return id;
