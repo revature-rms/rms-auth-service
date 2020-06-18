@@ -1,5 +1,6 @@
 package com.revature.rms.auth.controllers;
 
+import com.revature.rms.auth.dtos.AppUserDto;
 import com.revature.rms.auth.dtos.Credentials;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.auth.services.AppUserService;
@@ -24,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public AppUser authenticate(@RequestBody Credentials creds){
+    public AppUserDto authenticate(@RequestBody Credentials creds){
 
         return userService.authenticate(creds);
 
