@@ -2,7 +2,7 @@ package com.revature.rms.auth.entities;
 
 public enum UserRole {
 
-    ADMIN("Admin"), DEV("Dev"), BASIC_USER("Basic User"), LOCKED("Locked");
+    TRAINING_SITE_MANAGER("Training Site Manager"), BUILDING_MANAGER("Building Manager"), TRAINER("Trainer"), ADMIN("Admin"), LOCKED("Locked");
 
     private String roleName;
 
