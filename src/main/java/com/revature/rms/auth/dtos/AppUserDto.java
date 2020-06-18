@@ -2,7 +2,10 @@ package com.revature.rms.auth.dtos;
 
 
 import com.revature.rms.auth.entities.AppUser;
+import com.revature.rms.auth.entities.UserRole;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class AppUserDto {
@@ -13,12 +16,12 @@ public class AppUserDto {
 
     private String username;
 
-    private String role;
+    private List<String> role;
 
     public AppUserDto() {
     }
 
-    public AppUserDto(int id, String email, String username, String password, String role) {
+    public AppUserDto(int id, String email, String username, String password, List<String> role) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -29,7 +32,14 @@ public class AppUserDto {
         this.id = user.getId();
         this.email = user.getEmail();
         this.username = user.getUsername();
-        this.role = user.getRole().toString();
+
+        List<String> roles = new ArrayList<String>();
+
+        for(UserRole role:user.getRole()){
+            roles.add(role.toString());
+        }
+
+        this.role = roles;
     }
 
     public int getId() {
@@ -56,11 +66,11 @@ public class AppUserDto {
         this.username = username;
     }
 
-    public String getRole() {
+    public List<String> getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(List<String> role) {
         this.role = role;
     }
 
