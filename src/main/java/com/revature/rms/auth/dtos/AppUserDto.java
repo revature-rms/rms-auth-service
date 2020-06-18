@@ -13,8 +13,6 @@ public class AppUserDto {
 
     private String username;
 
-    private String password;
-
     private String role;
 
     public AppUserDto() {
@@ -24,7 +22,6 @@ public class AppUserDto {
         this.id = id;
         this.email = email;
         this.username = username;
-        this.password = password;
         this.role = role;
     }
 
@@ -32,7 +29,6 @@ public class AppUserDto {
         this.id = user.getId();
         this.email = user.getEmail();
         this.username = user.getUsername();
-        this.password = user.getPassword();
         this.role = user.getRole().toString();
     }
 
@@ -60,14 +56,6 @@ public class AppUserDto {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getRole() {
         return role;
     }
@@ -84,13 +72,12 @@ public class AppUserDto {
         return id == that.id &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(username, that.username) &&
-                Objects.equals(password, that.password) &&
                 Objects.equals(role, that.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, username, password, role);
+        return Objects.hash(id, email, username, role);
     }
 
     @Override
@@ -99,7 +86,6 @@ public class AppUserDto {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }
