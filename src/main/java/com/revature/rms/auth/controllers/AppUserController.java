@@ -37,13 +37,6 @@ public class AppUserController {
 
     }
 
-    @PostMapping(value = "/auth", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Principal authenticate(@RequestBody Credentials creds){
-
-        return userService.authenticate(creds);
-
-    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public AppUser register(@RequestBody AppUser newUser){
 
