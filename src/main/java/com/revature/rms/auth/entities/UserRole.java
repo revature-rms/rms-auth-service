@@ -12,7 +12,7 @@ public enum UserRole {
 
     public static UserRole getByName(String name) {
         for (UserRole role : UserRole.values()) {
-            if (role.roleName == name) {
+            if (role.roleName.equals(name)) {
                 return role;
             }
         }
