@@ -1,7 +1,6 @@
 package com.revature.rms.auth.services;
 
 import com.revature.rms.auth.dtos.Credentials;
-import com.revature.rms.auth.dtos.Principal;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.auth.entities.UserRole;
 import com.revature.rms.auth.exceptions.AuthenticationException;
@@ -60,7 +59,7 @@ public class AppUserService {
     }
 
     @Transactional(readOnly = true)
-    public Principal authenticate(Credentials creds){
+    public AppUser authenticate(Credentials creds){
 
         if(creds.getUsername() == null || creds.getUsername().trim().equals("") || creds.getPassword() == null || creds.getPassword().trim().equals("")){
             throw new BadRequestException();
@@ -73,7 +72,7 @@ public class AppUserService {
             throw new AuthenticationException();
         }
 
-        return new Principal(retrievedUser);
+        return retrievedUser;
 
     }
 
