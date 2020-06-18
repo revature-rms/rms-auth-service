@@ -2,6 +2,7 @@ package com.revature.rms.auth.services;
 
 import com.revature.rms.auth.dtos.AppUserDto;
 import com.revature.rms.auth.dtos.Credentials;
+import com.revature.rms.auth.dtos.RegisterDto;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.auth.entities.UserRole;
 import com.revature.rms.auth.exceptions.AuthenticationException;
@@ -28,7 +29,7 @@ public class AppUserService {
     }
 
     @Transactional(readOnly = true)
-    public List<AppUser> getAllUsers(){
+    public List<AppUserDto> getAllUsers(){
 
         Iterable<AppUser> iterable = userRepository.findAll();
 
@@ -38,12 +39,18 @@ public class AppUserService {
             throw new ResourceNotFoundException();
         }
 
-        return users;
+        List<AppUserDto> userDtos = new ArrayList<>();
+
+        for(AppUser user : users){
+            userDtos.add(new AppUserDto(user));
+        }
+
+        return userDtos;
 
     }
 
     @Transactional(readOnly = true)
-    public AppUser getUserById(int id){
+    public AppUserDto getUserById(int id){
 
         if(id <= 0){
            throw new BadRequestException();
@@ -55,7 +62,7 @@ public class AppUserService {
             throw new ResourceNotFoundException();
         }
 
-        return retrievedUser;
+        return new AppUserDto(retrievedUser);
 
     }
 
@@ -78,7 +85,7 @@ public class AppUserService {
     }
 
     @Transactional
-    public AppUser register(AppUser newUser){
+    public AppUserDto register(RegisterDto newUser){
 
         if(
                 newUser.getUsername() == null || newUser.getUsername().trim().equals("") ||
@@ -88,13 +95,14 @@ public class AppUserService {
             throw new BadRequestException();
         }
 
-        newUser.setRole(UserRole.ADMIN);
-        return userRepository.save(newUser);
+        AppUser user = new AppUser(newUser);
+
+        return new AppUserDto(userRepository.save(user));
 
     }
 
     @Transactional
-    public AppUser updateUser(AppUser updatedUser){
+    public AppUserDto updateUser(RegisterDto updatedUser){
 
         if(
                 updatedUser.getUsername() == null || updatedUser.getUsername().trim().equals("") ||
@@ -111,7 +119,9 @@ public class AppUserService {
             throw new ResourceNotFoundException();
         }
 
-        return userRepository.save(updatedUser);
+        AppUser user = new AppUser(updatedUser);
+
+        return new AppUserDto(userRepository.save(user));
 
     }
 
