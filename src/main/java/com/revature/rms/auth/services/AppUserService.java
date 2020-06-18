@@ -87,7 +87,7 @@ public class AppUserService {
             throw new BadRequestException();
         }
 
-        newUser.setRole(UserRole.BASIC_USER);
+        newUser.setRole(UserRole.ADMIN);
         return userRepository.save(newUser);
 
     }
