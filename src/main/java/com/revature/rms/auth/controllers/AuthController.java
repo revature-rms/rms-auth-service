@@ -23,6 +23,11 @@ public class AuthController {
 
     }
 
+    /**
+     * authenticate method: Takes in a Credentials object as the input.
+     * @param creds Credentials object containing appUser username and password Strings
+     * @return the creds object of the authenticated app User
+     */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public AppUserDto authenticate(@RequestBody Credentials creds){
 
