@@ -1,49 +1,45 @@
 package com.revature.rms.auth.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.rms.auth.dtos.AppUserDto;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.auth.entities.UserRole;
 import com.revature.rms.auth.services.AppUserService;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@RunWith(SpringRunner.class)
 @WebMvcTest(controllers = AppUserController.class)
+@AutoConfigureMockMvc
 public class AppUserControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private AppUserService userService;
 
-    @Autowired
-    private void setMockMvc(MockMvc mock){
-
-        this.mockMvc = mock;
-
-    }
-
-    @Before
-    public void setup(){
-
-        final AppUserController appUserController = new AppUserController(userService);
-        mockMvc = MockMvcBuilders.standaloneSetup(appUserController).build();
-
-    }
+    ObjectMapper objectMapper = new ObjectMapper();
 
     //****************************************GET ALL TESTS********************************************************************
 
@@ -62,8 +58,10 @@ public class AppUserControllerTest {
 
         when(userService.getUserById(1)).thenReturn(mockDto);
 
-        this.mockMvc.perform(get("/users/id/1"))
-                .andExpect(status().isOk());
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/id/1").accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(jsonPath("$.username", is("test1")));
+
 
     }
 
