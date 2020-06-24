@@ -46,6 +46,7 @@ public class AppUserControllerTest {
     @Test
     public void shouldReturnListOfAllAppUsers() throws Exception{
 
+        //Arrange
         List<String> mockRoles = new ArrayList<String>();
         mockRoles.add("Admin");
         mockRoles.add("Training Site Manager");
@@ -58,6 +59,7 @@ public class AppUserControllerTest {
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users").accept(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isOk());
 
     }
@@ -65,10 +67,12 @@ public class AppUserControllerTest {
     @Test
     public void shouldThrowResourceNotFoundExceptionWhenDatabaseIsEmpty() throws Exception{
 
+        //Arrange
         when(userService.getAllUsers()).thenThrow(ResourceNotFoundException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users").accept(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
 
     }
@@ -78,6 +82,7 @@ public class AppUserControllerTest {
     @Test
     public void shouldReturnAppUserDtoWhenGivenCorrectId() throws Exception{
 
+        //Arrange
         List<UserRole> mockRoles = new ArrayList<UserRole>();
         mockRoles.add(UserRole.ADMIN);
         mockRoles.add(UserRole.TRAINING_SITE_MANAGER);
@@ -88,6 +93,7 @@ public class AppUserControllerTest {
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/id/1").accept(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(jsonPath("$.username", is("test1")));
 
     }
@@ -95,10 +101,12 @@ public class AppUserControllerTest {
     @Test
     public void shouldThrowBadRequestExceptionWhenIdIsLessThanOne() throws Exception{
 
+        //Arrange
         when(userService.getUserById(0)).thenThrow(BadRequestException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/id/0").accept(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isBadRequest());
 
     }
@@ -106,10 +114,12 @@ public class AppUserControllerTest {
     @Test
     public void shouldThrowResourceNotFoundExceptionWhenIdIsNotFound() throws Exception{
 
+        //Arrange
         when(userService.getUserById(100)).thenThrow(ResourceNotFoundException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/id/100").accept(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
 
     }
@@ -119,6 +129,7 @@ public class AppUserControllerTest {
     @Test
     public void shouldReturnAppUserDtoWhenRegisteringAUser() throws Exception{
 
+        //Arrange
         List<UserRole> mockRoles = new ArrayList<UserRole>();
         mockRoles.add(UserRole.ADMIN);
         mockRoles.add(UserRole.TRAINING_SITE_MANAGER);
@@ -137,6 +148,7 @@ public class AppUserControllerTest {
                 .content(mapper.writeValueAsString(mockReqBody))
                 .contentType(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(jsonPath("$.username", is("test1")));
 
     }
@@ -144,6 +156,7 @@ public class AppUserControllerTest {
     @Test
     public void shouldThrowBadRequestErrorWhenGivenInvalidUserObj() throws Exception{
 
+        //Arrange
         List<String> mockStringRoles = new ArrayList<String>();
         mockStringRoles.add("Admin");
         mockStringRoles.add("Training Site Manager");
@@ -157,6 +170,7 @@ public class AppUserControllerTest {
                 .content(mapper.writeValueAsString(mockReqBody))
                 .contentType(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isBadRequest());
 
     }
@@ -166,6 +180,7 @@ public class AppUserControllerTest {
     @Test
     public void shouldReturnAppUserDtoWhenUpdatingAUser() throws Exception{
 
+        //Arrange
         List<UserRole> mockRoles = new ArrayList<UserRole>();
         mockRoles.add(UserRole.ADMIN);
         mockRoles.add(UserRole.TRAINING_SITE_MANAGER);
@@ -184,6 +199,7 @@ public class AppUserControllerTest {
                 .content(mapper.writeValueAsString(mockReqBody))
                 .contentType(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(jsonPath("$.username", is("test1")));
 
     }
@@ -191,6 +207,7 @@ public class AppUserControllerTest {
     @Test
     public void shouldThrowBadRequestExceptionWhenGivenInvalidUserToUpdate() throws Exception{
 
+        //Arrange
         List<String> mockStringRoles = new ArrayList<String>();
         mockStringRoles.add("Admin");
         mockStringRoles.add("Training Site Manager");
@@ -204,6 +221,7 @@ public class AppUserControllerTest {
                 .content(mapper.writeValueAsString(mockReqBody))
                 .contentType(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isBadRequest());
 
     }
@@ -211,6 +229,7 @@ public class AppUserControllerTest {
     @Test
     public void shouldThrowResourceNotFoundExceptionWhenNoUserFoundToUpdate() throws Exception{
 
+        //Arrange
         List<String> mockStringRoles = new ArrayList<String>();
         mockStringRoles.add("Admin");
         mockStringRoles.add("Training Site Manager");
@@ -224,6 +243,7 @@ public class AppUserControllerTest {
                 .content(mapper.writeValueAsString(mockReqBody))
                 .contentType(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
 
     }
