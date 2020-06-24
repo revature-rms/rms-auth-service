@@ -5,6 +5,8 @@ import com.revature.rms.auth.dtos.AppUserDto;
 import com.revature.rms.auth.dtos.RegisterDto;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.auth.entities.UserRole;
+import com.revature.rms.auth.exceptions.BadRequestException;
+import com.revature.rms.auth.exceptions.ResourceNotFoundException;
 import com.revature.rms.auth.services.AppUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,10 +23,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalToObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -62,6 +62,17 @@ public class AppUserControllerTest {
 
     }
 
+    @Test
+    public void shouldThrowResourceNotFoundExceptionWhenDatabaseIsEmpty() throws Exception{
+
+        when(userService.getAllUsers()).thenThrow(ResourceNotFoundException.class);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users").accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
+
+    }
+
     //****************************************GET BY ID TESTS********************************************************************
 
     @Test
@@ -78,6 +89,28 @@ public class AppUserControllerTest {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/id/1").accept(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(jsonPath("$.username", is("test1")));
+
+    }
+
+    @Test
+    public void shouldThrowBadRequestExceptionWhenIdIsLessThanOne() throws Exception{
+
+        when(userService.getUserById(0)).thenThrow(BadRequestException.class);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/id/0").accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder).andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    public void shouldThrowResourceNotFoundExceptionWhenIdIsNotFound() throws Exception{
+
+        when(userService.getUserById(100)).thenThrow(ResourceNotFoundException.class);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/id/100").accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
 
     }
 
@@ -108,6 +141,26 @@ public class AppUserControllerTest {
 
     }
 
+    @Test
+    public void shouldThrowBadRequestErrorWhenGivenInvalidUserObj() throws Exception{
+
+        List<String> mockStringRoles = new ArrayList<String>();
+        mockStringRoles.add("Admin");
+        mockStringRoles.add("Training Site Manager");
+
+        RegisterDto mockReqBody = new RegisterDto(null, "test1@revature.com", "password", mockStringRoles);
+
+        when(userService.register(any(RegisterDto.class))).thenThrow(BadRequestException.class);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(mockReqBody))
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder).andExpect(status().isBadRequest());
+
+    }
+
     //****************************************UPDATE TESTS********************************************************************
 
     @Test
@@ -132,6 +185,46 @@ public class AppUserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(jsonPath("$.username", is("test1")));
+
+    }
+
+    @Test
+    public void shouldThrowBadRequestExceptionWhenGivenInvalidUserToUpdate() throws Exception{
+
+        List<String> mockStringRoles = new ArrayList<String>();
+        mockStringRoles.add("Admin");
+        mockStringRoles.add("Training Site Manager");
+
+        RegisterDto mockReqBody = new RegisterDto(1,null, "test1@revature.com", "password", mockStringRoles);
+
+        when(userService.updateUser(any(RegisterDto.class))).thenThrow(BadRequestException.class);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(mockReqBody))
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder).andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    public void shouldThrowResourceNotFoundExceptionWhenNoUserFoundToUpdate() throws Exception{
+
+        List<String> mockStringRoles = new ArrayList<String>();
+        mockStringRoles.add("Admin");
+        mockStringRoles.add("Training Site Manager");
+
+        RegisterDto mockReqBody = new RegisterDto(100,"test1", "test1@revature.com", "password", mockStringRoles);
+
+        when(userService.updateUser(any(RegisterDto.class))).thenThrow(ResourceNotFoundException.class);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(mockReqBody))
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
 
     }
 
