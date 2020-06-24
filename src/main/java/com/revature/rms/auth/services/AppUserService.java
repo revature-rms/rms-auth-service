@@ -150,6 +150,13 @@ public class AppUserService {
 
     }
 
+    /**
+     * getListFromIterator method: Changes an iterator to a list object
+     * @param iterable Iterable retrieved from repository
+     * @param <T> Type of the iterable
+     * @return List of stated type
+     */
+
     public static <T> List<T> getListFromIterator(Iterable<T> iterable) {
 
         List<T> list = new ArrayList<>();
