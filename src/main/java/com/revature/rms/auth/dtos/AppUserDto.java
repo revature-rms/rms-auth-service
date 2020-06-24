@@ -28,6 +28,13 @@ public class AppUserDto {
         this.role = role;
     }
 
+    public AppUserDto(int id, String email, String username, List<String> role) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.role = role;
+    }
+
     public AppUserDto(AppUser user) {
         this.id = user.getId();
         this.email = user.getEmail();
