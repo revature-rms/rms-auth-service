@@ -12,27 +12,40 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class AppUserRepositoryTest {
 
     @Autowired
-    AppUserRepository appUserRepository;
+    private AppUserRepository appUserRepository;
 
     @Test
     public void getAllTest(){
-        List<UserRole> roleList= new ArrayList<>();
-        roleList.add(UserRole.TRAINER);
-        AppUser user = new AppUser();
-        user.setId(1);
-        user.setUsername("TestUser");
-        user.setEmail("test@user.com");
-        user.setPassword("test");
-        user.setRole(roleList);
 
-        appUserRepository.findById(1);
+        Iterable<AppUser> result = appUserRepository.findAll();
 
-        Assert.assertEquals(user.getUsername(),appUserRepository.findAppUserById(1).getUsername());
+        assertNotNull(result);
+
+    }
+
+    @Test
+    public void getByUsernameAndPasswordTest(){
+
+        AppUser result = appUserRepository.findAppUserByUsernameAndPassword("wsingleton", "password");
+
+        assertEquals(result.getId(), 1);
+
+    }
+
+    @Test
+    public void getByIdTest(){
+
+        AppUser result = appUserRepository.findAppUserById(1);
+
+        assertEquals(result.getUsername(), "wsingleton");
+
     }
 
 }

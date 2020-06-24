@@ -45,6 +45,7 @@ public class AuthControllerTest {
     @Test
     public void shouldReturnAppUserDtoWhenGivenValidCredentials() throws Exception{
 
+        //Arrange
         Credentials mockCreds = new Credentials("test1", "password");
 
         List<UserRole> mockRoles = new ArrayList<UserRole>();
@@ -60,6 +61,7 @@ public class AuthControllerTest {
                 .content(mapper.writeValueAsString(mockCreds))
                 .contentType(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(jsonPath("$.username", is("test1")));
 
     }
@@ -67,6 +69,7 @@ public class AuthControllerTest {
     @Test
     public void shouldThrowBadRequestExceptionWhenGivenInvalidCredentials() throws Exception{
 
+        //Arrange
         Credentials mockCreds = new Credentials(null, "password");
 
         when(userService.authenticate(any(Credentials.class))).thenThrow(BadRequestException.class);
@@ -76,6 +79,7 @@ public class AuthControllerTest {
                 .content(mapper.writeValueAsString(mockCreds))
                 .contentType(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isBadRequest());
 
     }
@@ -83,6 +87,7 @@ public class AuthControllerTest {
     @Test
     public void shouldThrowAuthenticationExceptionWhenGivenCredsThatDontExist() throws Exception{
 
+        //Arrange
         Credentials mockCreds = new Credentials("test1", "password");
 
         when(userService.authenticate(any(Credentials.class))).thenThrow(AuthenticationException.class);
@@ -92,6 +97,7 @@ public class AuthControllerTest {
                 .content(mapper.writeValueAsString(mockCreds))
                 .contentType(MediaType.APPLICATION_JSON);
 
+        //Act/Assert
         mockMvc.perform(requestBuilder).andExpect(status().isUnauthorized());
 
     }
