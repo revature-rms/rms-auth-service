@@ -27,6 +27,11 @@ public class AppUserService {
 
     }
 
+    /**
+     * getall method: Returns a list of all the appUser objects in the database.
+     * @return a list of all the appUsers
+     * @throws ResourceNotFoundException when no appUsers are found
+     */
     @Transactional(readOnly = true)
     public List<AppUserDto> getAllUsers(){
 
@@ -48,6 +53,12 @@ public class AppUserService {
 
     }
 
+    /**
+     * getUserById method: Returns an appUser object when the id int matches a record in the database.
+     * @param id appUserId int value
+     * @return an appUser with matching id
+     * @throws ResourceNotFoundException when an appUser is not found
+     */
     @Transactional(readOnly = true)
     public AppUserDto getUserById(int id){
 
@@ -65,6 +76,11 @@ public class AppUserService {
 
     }
 
+    /**
+     * authenticate method: Takes in a Credentials object as the input.
+     * @param creds Credentials object containing appUser username and password Strings
+     * @return the creds object of the authenticated app User
+     */
     @Transactional(readOnly = true)
     public AppUserDto authenticate(Credentials creds){
 
@@ -83,6 +99,11 @@ public class AppUserService {
 
     }
 
+    /**
+     * register method: Takes in a RegisterDto object as the input.
+     * @param newUser AppUserDto object
+     * @return the newly added user object
+     */
     @Transactional
     public AppUserDto register(RegisterDto newUser){
 
@@ -100,6 +121,11 @@ public class AppUserService {
 
     }
 
+    /**
+     * updateUser method: The user object is inputted and changes are saved.
+     * @param updatedUser newly updated user object
+     * @return updated/modified user object
+     */
     @Transactional
     public AppUserDto updateUser(RegisterDto updatedUser){
 
@@ -123,6 +149,13 @@ public class AppUserService {
         return new AppUserDto(userRepository.save(user));
 
     }
+
+    /**
+     * getListFromIterator method: Changes an iterator to a list object
+     * @param iterable Iterable retrieved from repository
+     * @param <T> Type of the iterable
+     * @return List of stated type
+     */
 
     public static <T> List<T> getListFromIterator(Iterable<T> iterable) {
 

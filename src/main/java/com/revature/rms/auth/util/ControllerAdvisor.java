@@ -12,6 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 @RestControllerAdvice
 public class ControllerAdvisor {
 
+    /**
+     * handleException method: Takes in an AppUserException, and a HttpServletResponse as input.
+     * @param e ErrorResponse that provides status, message, and timestamp of the exception
+     * @param resp HttpServletResponse that provides the response code
+     * @return the error response
+     */
     @ExceptionHandler
     public ErrorResponse handleException(AppUserException e, HttpServletResponse resp){
         ErrorResponse err = new ErrorResponse(e);
