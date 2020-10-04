@@ -45,14 +45,14 @@ public class AppUserServiceTest {
     public void shouldReturnAllAppUsers(){
 
         //Arrange
-        List<AppUser> mockUsers = new ArrayList<AppUser>();
-        List<UserRole> mockRoles = new ArrayList<UserRole>();
+        List<AppUser> mockUsers = new ArrayList<>();
+        List<UserRole> mockRoles = new ArrayList<>();
         mockRoles.add(UserRole.ADMIN);
         mockRoles.add(UserRole.TRAINING_SITE_MANAGER);
         mockUsers.add(new AppUser(1,"test1@revature.com", "test1", "password", mockRoles));
         mockUsers.add(new AppUser(2,"test2@revature.com", "test2", "password", mockRoles));
         mockUsers.add(new AppUser(3,"test3@revature.com", "test3", "password", mockRoles));
-        Iterable<AppUser> mockIterable = new ArrayList<AppUser>(mockUsers);
+        Iterable<AppUser> mockIterable = new ArrayList<>(mockUsers);
 
         when(userRepository.findAll()).thenReturn(mockIterable);
 
@@ -68,13 +68,11 @@ public class AppUserServiceTest {
     public void shouldThrowResourceNotFoundErrorWhenIterableIsEmpty(){
 
         //Arrange
-        Iterable<AppUser> mockUsers = new ArrayList<AppUser>();
+        Iterable<AppUser> mockUsers = new ArrayList<>();
         when(userRepository.findAll()).thenReturn(mockUsers);
 
         //Act/Assert
-        ResourceNotFoundException thrown = assertThrows(ResourceNotFoundException.class, () -> {
-           appUserService.getAllUsers();
-        });
+        assertThrows(ResourceNotFoundException.class, () -> appUserService.getAllUsers());
 
     }
 
@@ -84,7 +82,7 @@ public class AppUserServiceTest {
     public void shouldReturnAppUserDtoWhenGivenACorrectId(){
 
         //Arrange
-        List<UserRole> mockRoles = new ArrayList<UserRole>();
+        List<UserRole> mockRoles = new ArrayList<>();
         mockRoles.add(UserRole.ADMIN);
         mockRoles.add(UserRole.TRAINING_SITE_MANAGER);
         AppUser mockUser = new AppUser(1,"test1@revature.com", "test1", "password", mockRoles);
@@ -105,9 +103,7 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenGivenAnIdOfZero(){
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.getUserById(0);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.getUserById(0));
 
     }
 
@@ -118,9 +114,7 @@ public class AppUserServiceTest {
         when(userRepository.findAppUserById(1)).thenReturn(null);
 
         //Act/Assert
-        ResourceNotFoundException thrown = assertThrows(ResourceNotFoundException.class, () -> {
-           appUserService.getUserById(1);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> appUserService.getUserById(1));
 
     }
 
@@ -130,7 +124,7 @@ public class AppUserServiceTest {
     public void shouldReturnAppUserDtoWhenGivenValidCredentials(){
 
         //Arrange
-        List<UserRole> mockRoles = new ArrayList<UserRole>();
+        List<UserRole> mockRoles = new ArrayList<>();
         mockRoles.add(UserRole.ADMIN);
         mockRoles.add(UserRole.TRAINING_SITE_MANAGER);
         AppUser mockUser = new AppUser(1,"test1@revature.com", "test1", "password", mockRoles);
@@ -156,9 +150,7 @@ public class AppUserServiceTest {
         Credentials mockCreds = new Credentials(null, "password");
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.authenticate(mockCreds);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.authenticate(mockCreds));
 
     }
 
@@ -169,9 +161,7 @@ public class AppUserServiceTest {
         Credentials mockCreds = new Credentials("     ", "password");
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.authenticate(mockCreds);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.authenticate(mockCreds));
 
     }
 
@@ -182,9 +172,7 @@ public class AppUserServiceTest {
         Credentials mockCreds = new Credentials("test1", null);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.authenticate(mockCreds);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.authenticate(mockCreds));
 
     }
 
@@ -195,9 +183,7 @@ public class AppUserServiceTest {
         Credentials mockCreds = new Credentials("test1", "     ");
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.authenticate(mockCreds);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.authenticate(mockCreds));
 
     }
 
@@ -210,9 +196,7 @@ public class AppUserServiceTest {
         when(userRepository.findAppUserByUsernameAndPassword(mockCreds.getUsername(), mockCreds.getPassword())).thenReturn(null);
 
         //Act/Assert
-        AuthenticationException thrown = assertThrows(AuthenticationException.class, () -> {
-           appUserService.authenticate(mockCreds);
-        });
+        assertThrows(AuthenticationException.class, () -> appUserService.authenticate(mockCreds));
 
     }
 
@@ -222,11 +206,11 @@ public class AppUserServiceTest {
     public void shouldReturnNewlyCreatedUserWhenGivenAValidUser(){
 
         //Arrange
-        List<UserRole> mockRoles = new ArrayList<UserRole>();
+        List<UserRole> mockRoles = new ArrayList<>();
         mockRoles.add(UserRole.ADMIN);
         mockRoles.add(UserRole.TRAINING_SITE_MANAGER);
         AppUser mockUser = new AppUser(1,"test1@revature.com", "test1", "password", mockRoles);
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", "password", mockRegisterRoles);
@@ -247,15 +231,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenRegisterUsernameIsNull(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", null, "password", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.register(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -263,15 +245,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenRegisterUsernameIsEmpty(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "     ", "password", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.register(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -279,15 +259,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenRegisterEmailIsNull(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,null, "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.register(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -295,15 +273,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenRegisterEmailIsEmpty(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"      ", "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.register(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -311,15 +287,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenRegisterPasswordIsNull(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", null, mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.register(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -327,15 +301,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenRegisterPasswordIsEmpty(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", "     ", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.register(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -345,11 +317,11 @@ public class AppUserServiceTest {
     public void shouldReturnNewlyUpdatedUser(){
 
         //Arrange
-        List<UserRole> mockRoles = new ArrayList<UserRole>();
+        List<UserRole> mockRoles = new ArrayList<>();
         mockRoles.add(UserRole.ADMIN);
         mockRoles.add(UserRole.TRAINING_SITE_MANAGER);
         AppUser mockUser = new AppUser(1,"test1@revature.com", "test1", "password", mockRoles);
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", "password", mockRegisterRoles);
@@ -371,15 +343,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenUpdateUsernameIsNull(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", null, "password", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.updateUser(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -387,15 +357,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenUpdateUsernameIsEmpty(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "     ", "password", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.updateUser(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -403,15 +371,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenUpdateEmailIsNull(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,null, "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.updateUser(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -419,15 +385,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenUpdateEmailIsEmpty(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"      ", "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.updateUser(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -435,15 +399,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenUpdatePasswordIsNull(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", null, mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.updateUser(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -451,15 +413,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenUpdatePasswordIsEmpty(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", "     ", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.updateUser(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -467,15 +427,13 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenUpdateIdIsZero(){
 
         //Arrange
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(0,"test1@revature.com", "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> {
-            appUserService.updateUser(mockRegisterDto);
-        });
+        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -483,11 +441,11 @@ public class AppUserServiceTest {
     public void shouldThrowResourceNotFoundExceptionWhenIdCannotBeFound(){
 
         //Arrange
-        List<UserRole> mockRoles = new ArrayList<UserRole>();
+        List<UserRole> mockRoles = new ArrayList<>();
         mockRoles.add(UserRole.ADMIN);
         mockRoles.add(UserRole.TRAINING_SITE_MANAGER);
         AppUser mockUser = new AppUser(1,"test1@revature.com", "test1", "password", mockRoles);
-        List<String> mockRegisterRoles = new ArrayList<String>();
+        List<String> mockRegisterRoles = new ArrayList<>();
         mockRegisterRoles.add("Admin");
         mockRegisterRoles.add("Training Site Manager");
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", "password", mockRegisterRoles);
@@ -495,9 +453,7 @@ public class AppUserServiceTest {
         when(userRepository.findAppUserById(mockUser.getId())).thenReturn(null);
 
         //Act/Assert
-        ResourceNotFoundException thrown = assertThrows(ResourceNotFoundException.class, () -> {
-           appUserService.updateUser(mockRegisterDto);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
