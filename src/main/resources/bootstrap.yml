@@ -1,6 +1,8 @@
 spring:
   application:
     name: auth-service
+  profiles:
+    active: ${ACTIVE_SPRING_PROFILES:local}
 ---
 # Local Profile Configuration
 spring:
