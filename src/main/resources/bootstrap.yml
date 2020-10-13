@@ -17,22 +17,3 @@ spring:
   cloud:
     config:
       uri: http://${CONFIG_SERVICE_URL}:${CONFIG_SERVICE_PORT}
-
-
-
-
-#  datasource:
-#    url: jdbc:h2:mem:authservice
-#    driver-class-name: org.h2.Driver
-#    username: admin
-#    password: password
-#    h2:
-#      console:
-#        enabled: true
-#        path: /h2-console
-#    jpa:
-#      database-platform: org.hibernate.dialect.H2Dialect
-#      show-sql: true
-#  cloud:
-#    config:
-#      uri: http://localhost:8888
