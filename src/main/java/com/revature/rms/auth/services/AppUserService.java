@@ -4,9 +4,7 @@ import com.revature.rms.auth.dtos.AppUserDto;
 import com.revature.rms.auth.dtos.Credentials;
 import com.revature.rms.auth.dtos.RegisterDto;
 import com.revature.rms.auth.entities.AppUser;
-import com.revature.rms.auth.exceptions.AuthenticationException;
-import com.revature.rms.auth.exceptions.BadRequestException;
-import com.revature.rms.auth.exceptions.ResourceNotFoundException;
+import com.revature.rms.core.exceptions.*;
 import com.revature.rms.auth.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,7 +61,7 @@ public class AppUserService {
     public AppUserDto getUserById(int id){
 
         if(id <= 0){
-           throw new BadRequestException();
+           throw new InvalidRequestException();
         }
 
         AppUser retrievedUser = userRepository.findAppUserById(id);
@@ -85,7 +83,7 @@ public class AppUserService {
     public AppUserDto authenticate(Credentials creds){
 
         if(creds.getUsername() == null || creds.getUsername().trim().equals("") || creds.getPassword() == null || creds.getPassword().trim().equals("")){
-            throw new BadRequestException();
+            throw new InvalidRequestException();
         }
 
         AppUser retrievedUser = userRepository.findAppUserByUsernameAndPassword(creds.getUsername(), creds.getPassword());
@@ -112,7 +110,7 @@ public class AppUserService {
                 newUser.getPassword() == null || newUser.getPassword().trim().equals("") ||
                 newUser.getEmail() == null || newUser.getEmail().trim().equals("")
         ){
-            throw new BadRequestException();
+            throw new InvalidRequestException();
         }
 
         AppUser user = new AppUser(newUser);
@@ -135,7 +133,7 @@ public class AppUserService {
                 updatedUser.getEmail() == null || updatedUser.getEmail().trim().equals("") ||
                 updatedUser.getId() <= 0
         ){
-            throw new BadRequestException();
+            throw new InvalidRequestException();
         }
 
         AppUser persistedUser = userRepository.findAppUserById(updatedUser.getId());
