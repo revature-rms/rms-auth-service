@@ -6,12 +6,15 @@ import com.revature.rms.auth.dtos.RegisterDto;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.core.exceptions.*;
 import com.revature.rms.auth.repositories.AppUserRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppUserService {
@@ -112,11 +115,18 @@ public class AppUserService {
         ){
             throw new InvalidRequestException();
         }
-
-        AppUser user = new AppUser(newUser);
-
+            AppUser user = new AppUser(newUser);
+            AppUser testUsername = userRepository.findAppUserByUsername(newUser.getUsername());
+            try {
+                if (testUsername.getUsername().equals(newUser.getUsername())) {
+                    throw new ResourcePersistenceException("Username is already taken!");
+                }
+            } catch (NullPointerException npe){ }
+        try {
         return new AppUserDto(userRepository.save(user));
-
+        } catch (DataIntegrityViolationException dive){
+                throw new ResourcePersistenceException("Email is already taken!");
+        }
     }
 
     /**
@@ -139,12 +149,26 @@ public class AppUserService {
         AppUser persistedUser = userRepository.findAppUserById(updatedUser.getId());
 
         if(persistedUser == null){
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("App User not found with id: " + updatedUser.getId());
         }
-
+        AppUser testUsername = userRepository.findAppUserByUsername(updatedUser.getUsername());
+        try {
+            if (testUsername.getUsername().equals(updatedUser.getUsername()) && testUsername.getId() != updatedUser.getId()) {
+                throw new ResourcePersistenceException("Username is already taken!");
+            }
+        } catch (NullPointerException npe){ }
+        AppUser testEmail = userRepository.findAppUserByEmail(updatedUser.getEmail());
+        try {
+            if (testEmail.getEmail().equals(updatedUser.getEmail()) && testEmail.getId() != updatedUser.getId()) {
+                throw new ResourcePersistenceException("Email is already taken!");
+            }
+        } catch (NullPointerException npe){ }
         AppUser user = new AppUser(updatedUser);
-
-        return new AppUserDto(userRepository.save(user));
+        try{
+            return new AppUserDto(userRepository.save(user));
+        } catch (DataIntegrityViolationException dive){
+            throw new InternalServerException();
+        }
 
     }
 
