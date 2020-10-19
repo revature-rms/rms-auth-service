@@ -5,9 +5,9 @@ import com.revature.rms.auth.dtos.AppUserDto;
 import com.revature.rms.auth.dtos.Credentials;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.auth.entities.UserRole;
-import com.revature.rms.auth.exceptions.AuthenticationException;
-import com.revature.rms.auth.exceptions.BadRequestException;
 import com.revature.rms.auth.services.AppUserService;
+import com.revature.rms.core.exceptions.AuthenticationException;
+import com.revature.rms.core.exceptions.InvalidRequestException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +72,7 @@ public class AuthControllerTest {
         //Arrange
         Credentials mockCreds = new Credentials(null, "password");
 
-        when(userService.authenticate(any(Credentials.class))).thenThrow(BadRequestException.class);
+        when(userService.authenticate(any(Credentials.class))).thenThrow(InvalidRequestException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/")
                 .accept(MediaType.APPLICATION_JSON)

@@ -5,10 +5,10 @@ import com.revature.rms.auth.dtos.Credentials;
 import com.revature.rms.auth.dtos.RegisterDto;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.auth.entities.UserRole;
-import com.revature.rms.auth.exceptions.AuthenticationException;
-import com.revature.rms.auth.exceptions.BadRequestException;
-import com.revature.rms.auth.exceptions.ResourceNotFoundException;
 import com.revature.rms.auth.repositories.AppUserRepository;
+import com.revature.rms.core.exceptions.AuthenticationException;
+import com.revature.rms.core.exceptions.InvalidRequestException;
+import com.revature.rms.core.exceptions.ResourceNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -103,7 +103,7 @@ public class AppUserServiceTest {
     public void shouldThrowBadRequestExceptionWhenGivenAnIdOfZero(){
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.getUserById(0));
+        assertThrows(InvalidRequestException.class, () -> appUserService.getUserById(0));
 
     }
 
@@ -150,7 +150,7 @@ public class AppUserServiceTest {
         Credentials mockCreds = new Credentials(null, "password");
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.authenticate(mockCreds));
+        assertThrows(InvalidRequestException.class, () -> appUserService.authenticate(mockCreds));
 
     }
 
@@ -161,7 +161,7 @@ public class AppUserServiceTest {
         Credentials mockCreds = new Credentials("     ", "password");
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.authenticate(mockCreds));
+        assertThrows(InvalidRequestException.class, () -> appUserService.authenticate(mockCreds));
 
     }
 
@@ -172,7 +172,7 @@ public class AppUserServiceTest {
         Credentials mockCreds = new Credentials("test1", null);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.authenticate(mockCreds));
+        assertThrows(InvalidRequestException.class, () -> appUserService.authenticate(mockCreds));
 
     }
 
@@ -183,7 +183,7 @@ public class AppUserServiceTest {
         Credentials mockCreds = new Credentials("test1", "     ");
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.authenticate(mockCreds));
+        assertThrows(InvalidRequestException.class, () -> appUserService.authenticate(mockCreds));
 
     }
 
@@ -237,7 +237,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", null, "password", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -251,7 +251,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "     ", "password", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -265,7 +265,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,null, "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -279,7 +279,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"      ", "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -293,7 +293,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", null, mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -307,7 +307,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", "     ", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.register(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.register(mockRegisterDto));
 
     }
 
@@ -349,7 +349,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", null, "password", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -363,7 +363,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "     ", "password", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -377,7 +377,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,null, "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -391,7 +391,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"      ", "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -405,7 +405,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", null, mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -419,7 +419,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(1,"test1@revature.com", "test1", "     ", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
@@ -433,7 +433,7 @@ public class AppUserServiceTest {
         RegisterDto mockRegisterDto = new RegisterDto(0,"test1@revature.com", "test1", "password", mockRegisterRoles);
 
         //Act/Assert
-        assertThrows(BadRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
+        assertThrows(InvalidRequestException.class, () -> appUserService.updateUser(mockRegisterDto));
 
     }
 
