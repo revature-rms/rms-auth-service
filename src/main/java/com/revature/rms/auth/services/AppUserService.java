@@ -6,15 +6,12 @@ import com.revature.rms.auth.dtos.RegisterDto;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.core.exceptions.*;
 import com.revature.rms.auth.repositories.AppUserRepository;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AppUserService {
@@ -22,11 +19,7 @@ public class AppUserService {
     private AppUserRepository userRepository;
 
     @Autowired
-    public AppUserService(AppUserRepository repo){
-
-        this.userRepository = repo;
-
-    }
+    public AppUserService(AppUserRepository repo){this.userRepository = repo;}
 
     /**
      * getall method: Returns a list of all the appUser objects in the database.
@@ -37,19 +30,14 @@ public class AppUserService {
     public List<AppUserDto> getAllUsers(){
 
         Iterable<AppUser> iterable = userRepository.findAll();
-
         List<AppUser> users = getListFromIterator(iterable);
-
         if(users.isEmpty()){
             throw new ResourceNotFoundException();
         }
-
         List<AppUserDto> userDtos = new ArrayList<>();
-
         for(AppUser user : users){
             userDtos.add(new AppUserDto(user));
         }
-
         return userDtos;
 
     }
@@ -64,15 +52,12 @@ public class AppUserService {
     public AppUserDto getUserById(int id){
 
         if(id <= 0){
-           throw new InvalidRequestException();
+           throw new InvalidRequestException("Id number must be 1 or greater");
         }
-
         AppUser retrievedUser = userRepository.findAppUserById(id);
-
         if(retrievedUser == null){
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("No user with id: " + id + " was found");
         }
-
         return new AppUserDto(retrievedUser);
 
     }
@@ -86,16 +71,12 @@ public class AppUserService {
     public AppUserDto authenticate(Credentials creds){
 
         if(creds.getUsername() == null || creds.getUsername().trim().equals("") || creds.getPassword() == null || creds.getPassword().trim().equals("")){
-            throw new InvalidRequestException();
+            throw new InvalidRequestException("Credentials must not be null or blank");
         }
-
         AppUser retrievedUser = userRepository.findAppUserByUsernameAndPassword(creds.getUsername(), creds.getPassword());
-
-        //NEED TO TRY THIS OUT, MIGHT NEED A TRY/CATCH
         if(retrievedUser == null){
-            throw new AuthenticationException();
+            throw new AuthenticationException("No user found with those credentials");
         }
-
         return new AppUserDto(retrievedUser);
 
     }
@@ -113,7 +94,7 @@ public class AppUserService {
                 newUser.getPassword() == null || newUser.getPassword().trim().equals("") ||
                 newUser.getEmail() == null || newUser.getEmail().trim().equals("")
         ){
-            throw new InvalidRequestException();
+            throw new InvalidRequestException("Username, Password and Email must not be null or blank");
         }
             AppUser user = new AppUser(newUser);
             AppUser testUsername = userRepository.findAppUserByUsername(newUser.getUsername());
@@ -143,11 +124,9 @@ public class AppUserService {
                 updatedUser.getEmail() == null || updatedUser.getEmail().trim().equals("") ||
                 updatedUser.getId() <= 0
         ){
-            throw new InvalidRequestException();
+            throw new InvalidRequestException("Username, Password, and Email must not be null or blank, id number must be 1 or greater");
         }
-
         AppUser persistedUser = userRepository.findAppUserById(updatedUser.getId());
-
         if(persistedUser == null){
             throw new ResourceNotFoundException("App User not found with id: " + updatedUser.getId());
         }
