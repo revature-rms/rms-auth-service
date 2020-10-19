@@ -24,4 +24,20 @@ public interface AppUserRepository extends CrudRepository<AppUser, Integer> {
      */
     AppUser findAppUserByUsernameAndPassword(String username, String password);
 
+    /**
+     * findAppUserByUsername: The username parameter is passed as the input.
+     * An appUser is returned when the input username String match database records.
+     * @param username appUser username cred
+     * @return appUser with matching username and password Strings
+     */
+    AppUser findAppUserByUsername(String username);
+
+    /**
+     * findAppUserByEmail: The email parameter is passed as the input.
+     * An appUser is returned when the input email String match database records.
+     * @param email appUser username cred
+     * @return appUser with matching username and password Strings
+     */
+    AppUser findAppUserByEmail(String email);
+
 }

@@ -5,9 +5,10 @@ import com.revature.rms.auth.dtos.AppUserDto;
 import com.revature.rms.auth.dtos.RegisterDto;
 import com.revature.rms.auth.entities.AppUser;
 import com.revature.rms.auth.entities.UserRole;
-import com.revature.rms.auth.exceptions.BadRequestException;
-import com.revature.rms.auth.exceptions.ResourceNotFoundException;
+
 import com.revature.rms.auth.services.AppUserService;
+import com.revature.rms.core.exceptions.InvalidRequestException;
+import com.revature.rms.core.exceptions.ResourceNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +103,7 @@ public class AppUserControllerTest {
     public void shouldThrowBadRequestExceptionWhenIdIsLessThanOne() throws Exception{
 
         //Arrange
-        when(userService.getUserById(0)).thenThrow(BadRequestException.class);
+        when(userService.getUserById(0)).thenThrow(InvalidRequestException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/id/0").accept(MediaType.APPLICATION_JSON);
 
@@ -163,7 +164,7 @@ public class AppUserControllerTest {
 
         RegisterDto mockReqBody = new RegisterDto(null, "test1@revature.com", "password", mockStringRoles);
 
-        when(userService.register(any(RegisterDto.class))).thenThrow(BadRequestException.class);
+        when(userService.register(any(RegisterDto.class))).thenThrow(InvalidRequestException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users")
                 .accept(MediaType.APPLICATION_JSON)
@@ -214,7 +215,7 @@ public class AppUserControllerTest {
 
         RegisterDto mockReqBody = new RegisterDto(1,null, "test1@revature.com", "password", mockStringRoles);
 
-        when(userService.updateUser(any(RegisterDto.class))).thenThrow(BadRequestException.class);
+        when(userService.updateUser(any(RegisterDto.class))).thenThrow(InvalidRequestException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users")
                 .accept(MediaType.APPLICATION_JSON)
