@@ -17,11 +17,7 @@ public class AuthController {
     private AppUserService userService;
 
     @Autowired
-    public AuthController(AppUserService service){
-
-        this.userService = service;
-
-    }
+    public AuthController(AppUserService service){this.userService = service;}
 
     /**
      * authenticate method: Takes in a Credentials object as the input.
@@ -29,10 +25,6 @@ public class AuthController {
      * @return the creds object of the authenticated app User
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public AppUserDto authenticate(@RequestBody Credentials creds){
-
-        return userService.authenticate(creds);
-
-    }
+    public AppUserDto authenticate(@RequestBody Credentials creds){return userService.authenticate(creds);}
 
 }

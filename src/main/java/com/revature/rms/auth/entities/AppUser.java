@@ -1,8 +1,6 @@
 package com.revature.rms.auth.entities;
 
 import com.revature.rms.auth.dtos.RegisterDto;
-import org.apache.catalina.User;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
