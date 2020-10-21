@@ -15,7 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-
     /**
      * Docket api: provides the primary API configuration with sensible defaults and convenience methods for configuration
      * @return returns an instance of ApiSelectorBuilder, which provides a way to control the endpoints exposed by Swagger.
