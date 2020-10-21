@@ -11,15 +11,11 @@ import java.util.Objects;
 public class AppUserDto {
 
     private int id;
-
     private String email;
-
     private String username;
-
     private List<String> role;
 
-    public AppUserDto() {
-    }
+    public AppUserDto() {}
 
     public AppUserDto(int id, String email, String username, String password, List<String> role) {
         this.id = id;
