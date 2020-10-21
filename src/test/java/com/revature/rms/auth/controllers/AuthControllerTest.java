@@ -1,6 +1,7 @@
 package com.revature.rms.auth.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.rms.auth.AuthServiceApplication;
 import com.revature.rms.auth.dtos.AppUserDto;
 import com.revature.rms.auth.dtos.Credentials;
 import com.revature.rms.auth.entities.AppUser;
@@ -13,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -30,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = AuthController.class)
+//@WebMvcTest(controllers = AuthController.class)
+@SpringBootTest(classes = AuthServiceApplication.class)
 @AutoConfigureMockMvc
 public class AuthControllerTest {
 
