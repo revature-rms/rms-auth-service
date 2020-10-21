@@ -6,17 +6,12 @@ import java.util.Objects;
 public class RegisterDto {
 
     private int id;
-
     private String email;
-
     private String username;
-
     private String password;
-
     private List<String> role;
 
-    public RegisterDto() {
-    }
+    public RegisterDto() {}
 
     public RegisterDto(int id, String email, String username, String password, List<String> role) {
         this.id = id;
